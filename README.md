@@ -93,7 +93,7 @@ Requirements :
 
 9- Finally run the application locally.
 
-   <img src="ScreenShots/24.png" width=600 >
+   <img src="ScreenShots/26.png" width=600 >
 
  
 
