@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: esraa-go-app-db
+  name: esraa-go-app-db
+  namespace: default
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: esraa-go-app-db
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: esraa-go-app-db
+    spec:
+      containers:
+      - image: mysql:8.0.28
+        name: go-app-db
+        volumeMounts:
+        - mountPath: /var/
+          name: go-app-db-volume
+      envFrom: 
+        secretRef:
+          - name: go-app-db-env
+      volumes:
+        - name: go-app-db-volume
+          hostPath:
+            path: /data
+            type: DirectoryOrCreate

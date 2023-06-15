@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: esraa-go-app
+  name: esraa-go-app
+  namespace: default
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: esraa-go-app
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: esraa-go-app
+    spec:
+      containers:
+      - image: esraa-go-app
+        imagePullPolicy: Always
+        name: esraa-go-app
+      - image: mysql:8.0.28
+        name: godockerdb
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      envFrom: 
+        secretRef:
+          - name: go-app-env  
