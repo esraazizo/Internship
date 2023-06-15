@@ -1,0 +1,24 @@
+version: '3.4'
+services:
+  app-db:
+    image: mysql:8.0.28
+    environment:
+      MYSQL_ROOT_PASSWORD: '123456'
+      MYSQL_DATABASE: internship
+      MYSQL_USER: go
+      MYSQL_PASSWORD: '123456'
+    ports:
+      - '3306:3306'
+
+  app-go:
+    depends_on:
+      - app-db
+    restart: always
+    image: go-app
+    environment:
+      MYSQL_PASS: '123456'
+      MYSQL_USER: 'go'
+      MYSQL_PORT: '3306'
+      MYSQL_HOST: 'app-db'
+    ports:
+      - '9090:9090'
